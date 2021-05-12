@@ -11,21 +11,39 @@ int _strtol(char *str, unsigned int line)
 int base = 10;
 int num;
 char *endptr;
-
-errno = 0;
 num = strtol(str, &endptr, base);
 
 if (endptr == str)
 {
 /* None digits were found */
-printf("L%d: usage: push integer\n", line);
+printf("L%u: usage: push integer\n", line);
 exit(EXIT_FAILURE);
 }
 if (str[0] != '\0')
-if (!isdigit(str[0]) && *endptr != '\0')
+if (!_isdigit(str) && *endptr != '\0')
 {
-printf("L%d: usage: push integer\n", line);
+printf("L%u: usage: push integer\n", line);
 exit(EXIT_FAILURE);
 }
 return (num);
+}
+
+/**
+ * _isdigit - checks string is digit
+ * @str: string input argument
+ * Return: 0 Notdigit or 1 it is digit
+ */
+
+int _isdigit(char *str)
+{
+int c = 0;
+if (str == NULL)
+return (0);
+while (str[c])
+{
+if (isdigit(str[c]) == 0)
+return (0);
+c++;
+}
+return (1);
 }
