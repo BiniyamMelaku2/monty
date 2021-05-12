@@ -43,7 +43,14 @@ char *opcode;
 void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-
+/**
+ * struct global_stack - new aggregate stack_t and instruction_t type
+ * @top: points to top of stack linked list
+ * @ops: points to stack instruction readline
+ *
+ * Description: aggregated linked list stack structure
+ * for a globaly accessible stack data type
+ */
 typedef struct global_stack
 {
 stack_t **top;
@@ -59,6 +66,18 @@ void call_oper(stack_t **stack, char *oper, unsigned int line);
 void instruct_push(stack_t **stack, unsigned int line);
 void instruct_pall(stack_t **stack, unsigned int line);
 void instruct_pint(stack_t **stack, unsigned int line);
+void instruct_pop(stack_t **stack, unsigned int line);
+void instruct_swap(stack_t **stack, unsigned int line);
+void instruct_add(stack_t **stack, unsigned int line);
+void instruct_nop(stack_t **stack, unsigned int line);
+void instruct_sub(stack_t **stack, unsigned int line);
+void instruct_div(stack_t **stack, unsigned int line);
+void instruct_mul(stack_t **stack, unsigned int line);
+void instruct_mod(stack_t **stack, unsigned int line);
+void instruct_pchar(stack_t **stack, unsigned int line);
+void instruct_pstr(stack_t **stack, unsigned int line);
+void instruct_rotl(stack_t **stack, unsigned int line);
+void instruct_rotr(stack_t **stack, unsigned int line);
 
 int _strtol(char *str, unsigned int line);
 #endif
