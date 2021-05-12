@@ -17,14 +17,14 @@ ssize_t read;
 
 if (!filename)
 {
-printf("Error: Can't open file %s\n", filename);
+fprintf(stdout, "Error: Can't open file %s\n", filename);
 exit(EXIT_FAILURE);
 }
 
 myfile = fopen(filename, "r");
 if (myfile == NULL)
 {
-printf("Error: Can't open file %s\n", filename);
+fprintf(stdout, "Error: Can't open file %s\n", filename);
 exit(EXIT_FAILURE);
 }
 atexit(free_stack);

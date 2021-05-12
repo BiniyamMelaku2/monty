@@ -42,7 +42,7 @@ stack_t *head;
 stack_init(&head);
 if (argc != 2)
 {
-printf("USAGE: monty file\n");
+fprintf(stdout,"USAGE: monty file\n");
 exit(EXIT_FAILURE);
 }
 execute_file(argv[1], &head);

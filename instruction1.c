@@ -12,13 +12,13 @@ char *operd;
 int num;
 if (node == NULL)
 {
-printf("Error: malloc failed\n");
+fprintf(stdout, "Error: malloc failed\n");
 exit(EXIT_FAILURE);
 }
 operd = strtok(NULL, delims);
 if (operd == NULL || stack == NULL)
 {
-printf("L%u: usage: push integer\n", line);
+fprintf(stdout, "L%u: usage: push integer\n", line);
 free(node);
 exit(EXIT_FAILURE);
 }
@@ -41,7 +41,7 @@ void instruct_pall(stack_t **stack, unsigned int line __attribute__ ((unused)))
 stack_t *node = *stack;
 while (node != NULL)
 {
-printf("%d\n", node->n);
+fprintf(stdout, "%d\n", node->n);
 node = node->next;
 }
 }
