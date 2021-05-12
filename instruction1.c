@@ -27,7 +27,7 @@ node->n = num;
 node->prev = NULL;
 node->next = *stack;
 if (node->next != NULL)
-node->next->prev = node;
+(node->next)->prev = node;
 *stack = node;  /* stack shall be on top of linked list nodes */
 }
 
