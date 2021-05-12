@@ -60,3 +60,46 @@ exit(EXIT_FAILURE);
 }
 printf("%d\n", (*stack)->n);
 }
+
+/**
+ * instruct_pop - removes the top element of the stack
+ * @stack: pointer to the top node of stack
+ * @line: the current file line number calling instruction
+ */
+void instruct_pop(stack_t **stack, unsigned int line)
+{
+stack_t *node;
+if (stack == NULL || *stack == NULL)
+{
+printf("L%u: can't pop an empty stack\n", line);
+exit(EXIT_FAILURE);
+}
+node = *stack;
+*stack = (*stack)->next;
+free(node);
+}
+
+/**
+ * instruct_swap - swaps the top two elements of the stack
+ * @stack: pointer to the top node of stack
+ * @line: the current file line number calling instruction
+ */
+void instruct_swap(stack_t **stack, unsigned int line __attribute__ ((unused)))
+{
+stack_t *tmp;
+
+if (!(*stack) || !((*stack)->next))
+{
+printf("L%u: can't swap, stack too short\n", line);
+exit(EXIT_FAILURE);
+}
+tmp = (*stack)->next;
+(*stack)->prev = (*stack)->next;
+(*stack)->next = tmp->next;
+tmp->prev = NULL;
+(*stack)->prev = tmp;
+if (tmp->next)
+tmp->next->prev = *stack;
+tmp->next = *stack;
+*stack = (*stack)->prev;
+}
