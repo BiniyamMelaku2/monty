@@ -19,6 +19,7 @@ operd = strtok(NULL, delims);
 if (operd == NULL || stack == NULL)
 {
 printf("L%u: usage: push integer\n", line);
+free(node);
 exit(EXIT_FAILURE);
 }
 num = _strtol(operd, line);  /* num must only be type int */
@@ -35,10 +36,9 @@ node->next->prev = node;
  * @stack: pointer to the top node of stack
  * @line: the current file line number calling instruction
  */
-void instruct_pall(stack_t **stack, unsigned int line)
+void instruct_pall(stack_t **stack, unsigned int line __attribute__ ((unused)))
 {
 stack_t *node = *stack;
-(void) line;
 while (node != NULL)
 {
 printf("%d\n", node->n);
