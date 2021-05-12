@@ -80,4 +80,5 @@ void instruct_rotl(stack_t **stack, unsigned int line);
 void instruct_rotr(stack_t **stack, unsigned int line);
 
 int _strtol(char *str, unsigned int line);
+int _isdigit(char *str);
 #endif
