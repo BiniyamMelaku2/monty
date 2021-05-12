@@ -106,17 +106,17 @@ The opcode sub subtracts the top element of the stack from the second top elemen
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
                       Notes ....
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-monty.c
-=> create a stack : ? a global accessible datatype
-=> initilize a stack
-=> validate input ? { argc != 2}, {argv[2] not type int}   Instruction
-=> call instruction over stack
-=> exit
-execute_file.c
-=> check file exists!
-=> open read file getline(&line, &len, fptr); read line by line while loop
-=> strtok escape \n \t " "
-=> if instruction found call the method
-=>end
-instruction_PUSH()
-=> check valid args
+<monty.c>
++ => create a stack : ? a global accessible datatype
++ => initilize a stack
++ => validate input ? { argc != 2}, {argv[2] not type int}   Instruction
++ => call instruction over stack
++ => exit
+<execute_file.c>
++ => check file exists!
++ => open read file getline(&line, &len, fptr); read line by line while loop
++ => strtok escape \n \t " "
++ => if instruction found call the method
++ =>end
+<instruction_PUSH()>
++ => check valid args
