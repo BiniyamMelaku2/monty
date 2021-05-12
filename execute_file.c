@@ -13,8 +13,9 @@ char *lineptr = NULL, *oper;
 unsigned int line = 0;
 FILE *myfile;
 size_t llen;
+ssize_t read;
 
-if (filename == NULL)
+if (!filename)
 {
 printf("Error: Can't open file %s\n", filename);
 exit(EXIT_FAILURE);
@@ -28,7 +29,7 @@ exit(EXIT_FAILURE);
 }
 atexit(free_stack);
 
-while ((getline(&lineptr, &llen, myfile)) != -1)
+while ((read = getline(&lineptr, &llen, myfile)) != -1)
 {
 oper = strtok(lineptr, delims);
 line++;
