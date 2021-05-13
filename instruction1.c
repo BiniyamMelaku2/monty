@@ -7,28 +7,21 @@
  */
 void instruct_push(stack_t **stack, unsigned int line)
 {
-stack_t *node = malloc(sizeof(stack_t));
-char *operd;
+char *str;
 int num;
-if (node == NULL)
+str = strtok(NULL, "\n\t\r ");
+if (str == NULL || check_isdigit(str))
 {
-fprintf(stdout, "Error: malloc failed\n");
+dprintf(STDOUT_FILENO, "L%u: usage: push integer\n", line);
 exit(EXIT_FAILURE);
 }
-operd = strtok(NULL, delims);
-if (operd == NULL || stack == NULL)
+num = atoi(str);
+if (!add_node(stack, num))
 {
-fprintf(stdout, "L%u: usage: push integer\n", line);
-free(node);
+dprintf(STDOUT_FILENO, "Error: malloc failed\n");
 exit(EXIT_FAILURE);
 }
-num = _strtol(operd, line);  /* num must only be type int */
-node->n = num;
-node->prev = NULL;
-node->next = *stack;
-if (node->next != NULL)
-(node->next)->prev = node;
-*stack = node;  /* stack shall be on top of linked list nodes */
+var.len_stack++;
 }
 
 /**
@@ -36,13 +29,17 @@ if (node->next != NULL)
  * @stack: pointer to the top node of stack
  * @line: the current file line number calling instruction
  */
-void instruct_pall(stack_t **stack, unsigned int line __attribute__ ((unused)))
+void instruct_pall(stack_t **stack, unsigned int line)
 {
-stack_t *node = *stack;
-while (node != NULL)
+stack_t *head;
+(void) line;
+head = *stack;
+while (head != NULL)
 {
-fprintf(stdout, "%d\n", node->n);
-node = node->next;
+printf("%d\n", head->n);
+head = head->next;
+if (head == *stack)
+return;
 }
 }
 
@@ -53,12 +50,13 @@ node = node->next;
  */
 void instruct_pint(stack_t **stack, unsigned int line)
 {
-if (stack == NULL || *stack == NULL)
+stack_t *head = *stack;
+if (var.len_stack == 0)
 {
-printf("L%u: can't pint , stack empty\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't pint, stack empty\n", line);
 exit(EXIT_FAILURE);
 }
-printf("%d\n", (*stack)->n);
+printf("%d\n", head->n);
 }
 
 /**
@@ -68,15 +66,18 @@ printf("%d\n", (*stack)->n);
  */
 void instruct_pop(stack_t **stack, unsigned int line)
 {
-stack_t *node;
-if (stack == NULL || *stack == NULL)
+if (var.len_stack == 0)
 {
-printf("L%u: can't pop an empty stack\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't pop an empty stack\n", line);
 exit(EXIT_FAILURE);
 }
-node = *stack;
+(*stack)->next->prev = (*stack)->prev;
+(*stack)->prev->next = (*stack)->next;
+if (var.len_stack != 1)
 *stack = (*stack)->next;
-free(node);
+else
+*stack = NULL;
+var.len_stack--;
 }
 
 /**
@@ -87,19 +88,22 @@ free(node);
 void instruct_swap(stack_t **stack, unsigned int line __attribute__ ((unused)))
 {
 stack_t *tmp;
-
-if (!(*stack) || !((*stack)->next))
+if (var.len_stack < 2)
 {
-printf("L%u: can't swap, stack too short\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't swap, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
+if (var.len_stack == 2)
+{
+*stack = (*stack)->next;
+return;
+}
 tmp = (*stack)->next;
-(*stack)->prev = (*stack)->next;
-(*stack)->next = tmp->next;
-tmp->prev = NULL;
+tmp->prev = (*stack)->prev;
+(*stack)->prev->next = tmp;
 (*stack)->prev = tmp;
-if (tmp->next)
+(*stack)->next = tmp->next;
 tmp->next->prev = *stack;
 tmp->next = *stack;
-*stack = (*stack)->prev;
+*stack = tmp;
 }
