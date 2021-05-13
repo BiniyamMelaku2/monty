@@ -10,14 +10,14 @@ void instruct_mod(stack_t **stack, unsigned int line)
 int n;
 if (var.len_stack < 2)
 {
-dprintf(STDOUT_FILENO, "L%u: can't mod, stack too short\n",	line);
+fprintf(stderr, "L%u: can't mod, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
 n = (*stack)->n;
 instruct_pop(stack, line);
 if (n == 0)
 {
-dprintf(STDOUT_FILENO, "L%u: division by zero\n",	line);
+fprintf(stderr, "L%u: division by zero\n", line);
 exit(EXIT_FAILURE);
 }
 (*stack)->n %= n;
@@ -33,13 +33,13 @@ void instruct_pchar(stack_t **stack, unsigned int line)
 int ch;
 if (var.len_stack < 1)
 {
-dprintf(STDOUT_FILENO, "L%u: can't pchar, stack empty\n", line);
+fprintf(stderr, "L%u: can't pchar, stack empty\n", line);
 exit(EXIT_FAILURE);
 }
 ch = (*stack)->n;
 if (!isascii(ch))
 {
-dprintf(STDOUT_FILENO, "L%u: can't pchar, value out of range\n", line);
+fprintf(stderr, "L%u: can't pchar, value out of range\n", line);
 exit(EXIT_FAILURE);
 }
 printf("%c\n", ch);

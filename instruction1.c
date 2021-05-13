@@ -12,13 +12,13 @@ int num;
 str = strtok(NULL, "\n\t\r ");
 if (str == NULL || check_isdigit(str))
 {
-dprintf(STDOUT_FILENO, "L%u: usage: push integer\n", line);
+fprintf(stderr, "L%u: usage: push integer\n", line);
 exit(EXIT_FAILURE);
 }
 num = atoi(str);
 if (!add_node(stack, num))
 {
-dprintf(STDOUT_FILENO, "Error: malloc failed\n");
+fprintf(stderr, "Error: malloc failed\n");
 exit(EXIT_FAILURE);
 }
 var.len_stack++;
@@ -53,7 +53,7 @@ void instruct_pint(stack_t **stack, unsigned int line)
 stack_t *head = *stack;
 if (var.len_stack == 0)
 {
-dprintf(STDOUT_FILENO, "L%u: can't pint, stack empty\n", line);
+fprintf(stderr, "L%u: can't pint, stack empty\n", line);
 exit(EXIT_FAILURE);
 }
 printf("%d\n", head->n);
@@ -69,7 +69,7 @@ void instruct_pop(stack_t **stack, unsigned int line)
 stack_t *pop = *stack;
 if (var.len_stack == 0)
 {
-dprintf(STDOUT_FILENO, "L%u: can't pop an empty stack\n", line);
+fprintf(stderr, "L%u: can't pop an empty stack\n", line);
 exit(EXIT_FAILURE);
 }
 (*stack)->next->prev = (*stack)->prev;
@@ -92,7 +92,7 @@ void instruct_swap(stack_t **stack, unsigned int line __attribute__ ((unused)))
 stack_t *tmp;
 if (var.len_stack < 2)
 {
-dprintf(STDOUT_FILENO, "L%u: can't swap, stack too short\n", line);
+fprintf(stderr, "L%u: can't swap, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
 if (var.len_stack == 2)

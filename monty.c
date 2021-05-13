@@ -74,13 +74,13 @@ var.len_queue = 0;
 var.len_stack = 0;
 if (argc != 2)
 {
-dprintf(STDOUT_FILENO, "USAGE: monty file\n");
+fprintf(stderr, "USAGE: monty file\n");
 exit(EXIT_FAILURE);
 }
 myfile = fopen(argv[1], "r");
 if (myfile == NULL)
 {
-dprintf(STDOUT_FILENO, "Error: Can't open file %s\n", argv[1]);
+fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 exit(EXIT_FAILURE);
 }
 

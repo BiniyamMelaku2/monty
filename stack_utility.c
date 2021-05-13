@@ -26,8 +26,8 @@ return (0);
  */
 void set_queue(stack_t **stack, unsigned int line)
 {
-(void)stack;
-(void)line;
+(void) stack;
+(void) line;
 var.len_queue = QUEUE;
 }
 
@@ -38,7 +38,7 @@ var.len_queue = QUEUE;
  */
 void set_stack(stack_t **stack, unsigned int line)
 {
-(void)stack;
-(void)line;
+(void) stack;
+(void) line;
 var.len_queue = STACK;
 }

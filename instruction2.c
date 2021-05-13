@@ -10,7 +10,7 @@ void instruct_add(stack_t **stack, unsigned int line)
 int n = 0;
 if (var.len_stack < 2)
 {
-dprintf(STDOUT_FILENO, "L%u: can't add, stack too short\n", line);
+fprintf(stderr, "L%u: can't add, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
 n += (*stack)->n;
@@ -38,7 +38,7 @@ void instruct_sub(stack_t **stack, unsigned int line)
 int n;
 if (var.len_stack < 2)
 {
-dprintf(STDOUT_FILENO, "L%u: can't sub, stack too short\n",	line);
+fprintf(stderr, "L%u: can't sub, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
 n = (*stack)->n;
@@ -56,14 +56,14 @@ void instruct_div(stack_t **stack, unsigned int line)
 int n;
 if (var.len_stack < 2)
 {
-dprintf(STDOUT_FILENO, "L%u: can't div, stack too short\n",	line);
+fprintf(stderr, "L%u: can't div, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
 n = (*stack)->n;
 instruct_pop(stack, line);
 if (n == 0)
 {
-dprintf(STDOUT_FILENO, "L%u: division by zero\n",	line);
+fprintf(stderr, "L%u: division by zero\n", line);
 exit(EXIT_FAILURE);
 }
 (*stack)->n /= n;
@@ -79,7 +79,7 @@ void instruct_mul(stack_t **stack, unsigned int line)
 int n;
 if (var.len_stack < 2)
 {
-dprintf(STDOUT_FILENO, "L%u: can't mul, stack too short\n",	line);
+fprintf(stderr, "L%u: can't mul, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
 n = (*stack)->n;

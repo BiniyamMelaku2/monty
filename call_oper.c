@@ -39,6 +39,6 @@ all_opers[c].f(stack, line);
 return;
 }
 }
-dprintf(STDOUT_FILENO, "L%u: unknown instruction %s\n", line, oper);
+fprintf(stderr, "L%u: unknown instruction %s\n", line, oper);
 exit(EXIT_FAILURE);
 }
