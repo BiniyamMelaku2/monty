@@ -7,15 +7,15 @@
  */
 void instruct_add(stack_t **stack, unsigned int line)
 {
-int tmp;
-if (*stack == NULL || (*stack)->next == NULL)
+int n = 0;
+if (var.len_stack < 2)
 {
-printf("L%u: can't add, stack too short\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't add, stack too short\n", line);
 exit(EXIT_FAILURE);
 }
-tmp = (*stack)->n;
+n += (*stack)->n;
 instruct_pop(stack, line);
-(*stack)->n += tmp;
+(*stack)->n += n;
 }
 
 /**
@@ -35,15 +35,15 @@ void instruct_nop(stack_t **stack __attribute__ ((unused)), unsigned int line)
  */
 void instruct_sub(stack_t **stack, unsigned int line)
 {
-int tmp;
-if (*stack == NULL || (*stack)->next == NULL)
+int n;
+if (var.len_stack < 2)
 {
-printf("L%u: can't sub, stack too short\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't sub, stack too short\n",	line);
 exit(EXIT_FAILURE);
 }
-tmp = (*stack)->n;
+n = (*stack)->n;
 instruct_pop(stack, line);
-(*stack)->n -= tmp;
+(*stack)->n -= n;
 }
 
 /**
@@ -53,21 +53,20 @@ instruct_pop(stack, line);
  */
 void instruct_div(stack_t **stack, unsigned int line)
 {
-int tmp;
-if (*stack == NULL || (*stack)->next == NULL)
+int n;
+if (var.len_stack < 2)
 {
-printf("L%u: can't div, stack too short\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't div, stack too short\n",	line);
 exit(EXIT_FAILURE);
 }
-tmp = (*stack)->n;
-if (tmp == 0)
-{
-printf("L%u: division by zero\n", line);
-exit(EXIT_FAILURE);
-}
-
+n = (*stack)->n;
 instruct_pop(stack, line);
-(*stack)->n /= tmp;
+if (n == 0)
+{
+dprintf(STDOUT_FILENO, "L%u: division by zero\n",	line);
+exit(EXIT_FAILURE);
+}
+(*stack)->n /= n;
 }
 
 /**
@@ -77,13 +76,13 @@ instruct_pop(stack, line);
  */
 void instruct_mul(stack_t **stack, unsigned int line)
 {
-int tmp;
-if (*stack == NULL || (*stack)->next == NULL)
+int n;
+if (var.len_stack < 2)
 {
-printf("L%u: can't mul, stack too short\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't mul, stack too short\n",	line);
 exit(EXIT_FAILURE);
 }
-tmp = (*stack)->n;
+n = (*stack)->n;
 instruct_pop(stack, line);
-(*stack)->n *= tmp;
+(*stack)->n *= n;
 }
