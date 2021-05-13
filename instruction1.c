@@ -66,6 +66,7 @@ printf("%d\n", head->n);
  */
 void instruct_pop(stack_t **stack, unsigned int line)
 {
+stack_t *pop = *stack;
 if (var.len_stack == 0)
 {
 dprintf(STDOUT_FILENO, "L%u: can't pop an empty stack\n", line);
@@ -77,6 +78,7 @@ if (var.len_stack != 1)
 *stack = (*stack)->next;
 else
 *stack = NULL;
+free(pop);
 var.len_stack--;
 }
 
