@@ -1,19 +1,32 @@
-#ifndef MONTY_H
-#define MONTY_H
+#ifndef _MONTY_H_
+#define _MONTY_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <errno.h>
-#include <limits.h>
 #include <ctype.h>
 
-#define delims "\n \t\r"
+#define STACK 0
+#define QUEUE 1
+
+/**
+ * struct var_s - struct contains main variables of the Monty interpreter
+ * @len_queue: flag 0: stack, 1: queue
+ * @len_stack: length of the stack
+ */
+typedef struct var_s
+{
+int len_queue;
+size_t len_stack;
+} var_t;
+
+/* global flag contains queue and stack length */
+extern var_t var;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -43,24 +56,10 @@ char *opcode;
 void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/**
- * struct global_stack - new aggregate stack_t and instruction_t type
- * @top: points to top of stack linked list
- * @ops: points to stack instruction readline
- *
- * Description: aggregated linked list stack structure
- * for a globaly accessible stack data type
- */
-typedef struct global_stack
-{
-stack_t **top;
-instruction_t **ops;
-} gl_stack;
-
-extern gl_stack mystack;
-void stack_init(stack_t **head);
-void free_stack(void);
-int execute_file(char *filename, stack_t **stack);
+stack_t *add_node(stack_t **stack, const int n);
+void free_stack(int status, void *arg);
+void free_lineptr(int status, void *arg);
+void myfile_close(int status, void *arg);
 void call_oper(stack_t **stack, char *oper, unsigned int line);
 
 void instruct_push(stack_t **stack, unsigned int line);
@@ -79,6 +78,8 @@ void instruct_pstr(stack_t **stack, unsigned int line);
 void instruct_rotl(stack_t **stack, unsigned int line);
 void instruct_rotr(stack_t **stack, unsigned int line);
 
-int _strtol(char *str, unsigned int line);
-int _isdigit(char *str);
+int check_isdigit(char *str);
+void set_queue(stack_t **stack, unsigned int line);
+void set_stack(stack_t **stack, unsigned int line);
+
 #endif
