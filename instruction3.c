@@ -7,21 +7,20 @@
  */
 void instruct_mod(stack_t **stack, unsigned int line)
 {
-int tmp;
-if (*stack == NULL || (*stack)->next == NULL)
+int n;
+if (var.len_stack < 2)
 {
-printf("L%u: can't mod, stack too short\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't mod, stack too short\n",	line);
 exit(EXIT_FAILURE);
 }
-
-tmp = (*stack)->n;
-if (tmp == 0)
-{
-printf("L%u: division by zero\n", line);
-exit(EXIT_FAILURE);
-}
+n = (*stack)->n;
 instruct_pop(stack, line);
-(*stack)->n %= tmp;
+if (n == 0)
+{
+dprintf(STDOUT_FILENO, "L%u: division by zero\n",	line);
+exit(EXIT_FAILURE);
+}
+(*stack)->n %= n;
 }
 
 /**
@@ -32,20 +31,18 @@ instruct_pop(stack, line);
 void instruct_pchar(stack_t **stack, unsigned int line)
 {
 int ch;
-if (*stack == NULL)
+if (var.len_stack < 1)
 {
-printf("L%u: can't pchar, stack empty\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't pchar, stack empty\n", line);
 exit(EXIT_FAILURE);
 }
-
 ch = (*stack)->n;
-if (!(ch >= 0 && ch <= 127))
+if (!isascii(ch))
 {
-printf("L%u: can't pchar, value out of range\n", line);
+dprintf(STDOUT_FILENO, "L%u: can't pchar, value out of range\n", line);
 exit(EXIT_FAILURE);
 }
-putchar(ch);
-putchar('\n');
+printf("%c\n", ch);
 }
 
 /**
@@ -55,19 +52,18 @@ putchar('\n');
  */
 void instruct_pstr(stack_t **stack, unsigned int line __attribute__ ((unused)))
 {
-stack_t *tmp = *stack;
-if (*stack == NULL)
+stack_t *tmp;
+int ch;
+tmp = *stack;
+while (tmp != NULL)
 {
-putchar('\n');
-return;
-}
-while (tmp)
-{
-if (isascii(tmp->n) && tmp->n != 0)
-putchar(tmp->n);
-else
+ch = tmp->n;
+if (!isascii(ch) || ch == 0)
 break;
+putchar(ch);
 tmp = tmp->next;
+if (tmp == *stack)
+break;
 }
 putchar('\n');
 }
@@ -79,17 +75,8 @@ putchar('\n');
  */
 void instruct_rotl(stack_t **stack, unsigned int line __attribute__ ((unused)))
 {
-stack_t *tmp = *stack, *rotl_top;
-if (*stack == NULL || (*stack)->next == NULL)
-return;
-rotl_top = (*stack)->next;
-rotl_top->prev = NULL;
-while (tmp->next != NULL)
-tmp = tmp->next;
-tmp->next = *stack;
-(*stack)->next = NULL;
-(*stack)->prev = tmp;
-(*stack) = rotl_top;
+if (*stack)
+*stack = (*stack)->next;
 }
 
 /**
@@ -99,15 +86,6 @@ tmp->next = *stack;
  */
 void instruct_rotr(stack_t **stack, unsigned int line __attribute__ ((unused)))
 {
-stack_t *tmp = *stack;
-if (*stack == NULL || (*stack)->next == NULL)
-return;
-while (tmp->next != NULL)
-tmp = tmp->next;
-
-tmp->next = *stack;
-tmp->prev->next = NULL;
-tmp->prev = NULL;
-(*stack)->prev = tmp;
-(*stack) = tmp;
+if (*stack)
+*stack = (*stack)->prev;
 }
